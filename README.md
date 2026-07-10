@@ -37,6 +37,7 @@ cse340-course-repo/
 │       └── projects.ejs
 ├── server.js
 └── package.json
+
 ```
 
 ## Technologies
