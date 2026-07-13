@@ -1,4 +1,3 @@
-
 import { Pool } from 'pg';
 
 /**
@@ -14,21 +13,10 @@ import { Pool } from 'pg';
  */
 const pool = new Pool({
     connectionString: process.env.DB_URL,
-    ssl: true
+    ssl: {
+        rejectUnauthorized: false
+    }
 });
-
-/**
- * Common SSL Issue:
- *
- * You may encounter SSL connection errors depending on your operating system, Node.js
- * version, or PostgreSQL server settings. If you have confirmed your credentials are
- * correct but still see SSL errors, try updating the 'ssl' property in the Pool
- * configuration above to:
- *
- * ssl: {
- *     rejectUnauthorized: false
- * }
- */
 
 /**
  * Since we will modify the normal pool object in development mode, we need to create and
@@ -37,7 +25,7 @@ const pool = new Pool({
  */
 let db = null;
 
-if (process.env.NODE_ENV === 'development' && process.env.ENABLE_SQL_LOGGING === 'true') {
+if (process.env.NODE_ENV?.toLowerCase() === 'development' && process.env.ENABLE_SQL_LOGGING === 'true') {
     /**
      * In development mode, we wrap the pool to provide query logging.
      * This helps with debugging by showing all executed queries in the console.
@@ -90,4 +78,3 @@ const testConnection = async() => {
 };
 
 export { db as default, testConnection };
-
