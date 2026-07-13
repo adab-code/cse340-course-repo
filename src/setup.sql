@@ -66,6 +66,69 @@ VALUES
 (3, 'Youth Mentorship Kickoff', 'Launch a mentorship program pairing volunteers with at-risk youth for academic and career guidance.', 'Youth Center, 350 Future Rd', '2026-11-10');
 
 
+-- ========================================
+-- Category Table
+-- ========================================
+CREATE TABLE category (
+    category_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE
+);
+
+
+-- ========================================
+-- Insert Categories
+-- ========================================
+INSERT INTO category (name)
+VALUES
+('Environmental'),
+('Educational'),
+('Community Service'),
+('Health and Wellness');
+
+
+-- ========================================
+-- Project-Category Junction Table
+-- ========================================
+CREATE TABLE project_category (
+    project_id INTEGER NOT NULL,
+    category_id INTEGER NOT NULL,
+    PRIMARY KEY (project_id, category_id),
+    FOREIGN KEY (project_id) REFERENCES project (project_id),
+    FOREIGN KEY (category_id) REFERENCES category (category_id)
+);
+
+
+-- ========================================
+-- Insert Project-Category Associations
+-- ========================================
+
+-- BrightFuture Builders projects (IDs 1-5)
+INSERT INTO project_category (project_id, category_id) VALUES
+(1, 1), (1, 3),
+(2, 2), (2, 3),
+(3, 3),
+(4, 1), (4, 3),
+(5, 3), (5, 4);
+
+-- GreenHarvest Growers projects (IDs 6-10)
+INSERT INTO project_category (project_id, category_id) VALUES
+(6, 1), (6, 2),
+(7, 1), (7, 2),
+(8, 1), (8, 2),
+(9, 1),
+(10, 1), (10, 3);
+
+-- UnityServe Volunteers projects (IDs 11-15)
+INSERT INTO project_category (project_id, category_id) VALUES
+(11, 3), (11, 4),
+(12, 3), (12, 4),
+(13, 3),
+(14, 3), (14, 4),
+(15, 2), (15, 3);
+
+
 -- Verify data insertion
 SELECT * FROM organization;
 SELECT * FROM project;
+SELECT * FROM category;
+SELECT * FROM project_category;
